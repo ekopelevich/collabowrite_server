@@ -5,8 +5,8 @@ var knex = require('knex')(knexfile.development);
 
 router.get('/:story_id', function(req, res, next) {
   knex('stories').select().where('id', req.params.story_id)
-  .then(function(id){
-    res.status(200).send(stories[id]);
+  .then(function(story){
+    res.status(200).send(story[0]);
   })
 });
 
