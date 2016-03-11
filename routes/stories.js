@@ -11,22 +11,14 @@ router.get('/:story_id', function(req, res, next) {
 
 router.get('/', function(req, res, next) {
   knex('stories').select().then(function(stories){
-    res.status(200).send({data: stories});
+    console.log(stories);
+    res.status(200).send({story: stories});
   })
 });
 
 router.post('/', function(req, res, next) {
   console.log(req.body);
-  var story = {
-    owner_id: 23, // lookup owner
-    title: req.body.title,
-    start_date: 0, // figure out timestamp
-    summary: req.body.summary,
-    edit_lock: 0, // write some logic
-    genre_id: 6, // write some logic
-    checkout_time: 1457655254170, // figure out timestamp
-    state_id: 1 // write some logic
-  };
+  var story = {};
 
   knex('stories').returning('id').insert(story).then(function(ids) {
     story.id = ids[0];
@@ -35,17 +27,7 @@ router.post('/', function(req, res, next) {
 });
 
 router.put('/:story_id', function(req, res, next) {
-  var story = {
-    id: req.params.user_id,
-    owner_id: 23, // lookup owner
-    title: req.body.title,
-    start_date: 0, // figure out timestamp
-    summary: req.body.summary,
-    edit_lock: 0, // write some logic
-    genre_id: 6, // write some logic
-    checkout_time: 1457655254170, // figure out timestamp
-    state_id: 1 // write some logic
-  };
+  var story = {};
 
   knex('stories').update(story)
   .where('id', req.params.story_id)
