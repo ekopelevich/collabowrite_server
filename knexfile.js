@@ -1,8 +1,4 @@
-try {
-  require('dotenv').load();
-} catch(error) {
-  console.error(error);
-}
+require('dotenv').load({silent:true});
 
 module.exports = {
 
