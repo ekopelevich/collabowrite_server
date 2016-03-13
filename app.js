@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var cors = require('cors');
 
 var routes = require('./routes/index');
-// var users = require('./routes/users');
+var users = require('./routes/users');
 var stories = require('./routes/stories');
 var contributions = require('./routes/contributions');
 // var token = require('./routes/token');
@@ -24,7 +24,7 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-// app.use('/users', users);
+app.use('/users', users);
 app.use('/stories', stories);
 app.use('/contributions', contributions);
 // app.use('/token', token);

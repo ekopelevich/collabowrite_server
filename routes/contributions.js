@@ -2,11 +2,11 @@ var express = require('express');
 var router = express.Router();
 var knex = require('../db/knex');
 
-// router.use('/:user_id', function(req, res, next) {
-//   req.routeChain = req.routeChain || {};
-//   req.routeChain.contributionId = req.params.id;
-//   next();
-// });
+router.use('/:user_id', function(req, res, next) {
+  req.routeChain = req.routeChain || {};
+  req.routeChain.contributionId = req.params.id;
+  next();
+});
 
 // router.get('/:contribution_id', function(req, res, next) {
 //   knex('contributions').select().where('id', req.params.contribution_id)
