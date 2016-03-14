@@ -1,22 +1,27 @@
 var express = require('express');
-var router = express.Router();
 var knex = require('../db/knex');
+var app = express();
+var userRouter = express.Router();
+var storyRouter = express.Router({ mergeParams: true });
 
-router.get('/:user_id', function(req, res, next) {
+// app.use('/users', userRouter)
+// userRouter.use('/:user_id/stories', storyRouter);
+// storyRouter.use('/:user_id/stories', storyRouter);
+
+userRouter.get('/:user_id', function(req, res, next) {
   knex('users').select().where('id', req.params.user_id)
   .then(function(user){
     res.status(200).send(user[0]);
   })
 });
 
-router.get('/', function(req, res, next) {
+userRouter.get('/', function(req, res, next) {
   knex('users').select().then(function(users){
-    console.log(users);
     res.status(200).send({user: users});
   })
 });
 
-router.post('/', function(req, res, next) {
+userRouter.post('/', function(req, res, next) {
   console.log(req.body);
   var user = {};
 
@@ -26,7 +31,7 @@ router.post('/', function(req, res, next) {
   });
 });
 
-router.put('/:user_id', function(req, res, next) {
+userRouter.put('/:user_id', function(req, res, next) {
   var user = {};
 
   knex('users').update(user)
@@ -36,11 +41,30 @@ router.put('/:user_id', function(req, res, next) {
   })
 });
 
-router.delete('/', function(req, res, next) {
+userRouter.delete('/', function(req, res, next) {
   knex('users').delete()
   .where('id', req.params.user_id).then(function(){
     res.sendStatus(204);
   })
 });
 
-module.exports = router;
+storyRouter.get('/:user_id', function(req, res, next) {
+  knex('users').select().where('id', req.params.user_id)
+  .then(function(user){
+    console.log('hello', req.params)
+    res.send('Hello from monkey ' + req.params.id);
+    // res.status(200).send(user[0]);
+  })
+});
+
+storyRouter.get('/:story_id', function(req, res, next) {
+  knex('users').select().then(function(users){
+    res.status(200).send({user: users});
+    res.send('Hello from user ' + req.params.id + '. This is story # ' + req.params.id );
+  })
+});
+
+app.use('/users/', userRouter);
+app.use('/users/:user_id/stories', storyRouter);
+
+module.exports = userRouter;

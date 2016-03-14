@@ -1,6 +1,5 @@
-exports.seed = function(knex, Promise) {
+module.exports = function(knex, Promise) {
   return Promise.all([
-    knex('genres').del(),
     knex('genres').insert({id: 1, genre: 'Let\'s see what happens!'}),
     knex('genres').insert({id: 2, genre: 'childrens'}),
     knex('genres').insert({id: 3, genre: 'comedy'}),

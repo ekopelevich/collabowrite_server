@@ -5,6 +5,7 @@ exports.up = function(knex, Promise) {
       table.integer('author_id').unsigned().references('col').inTable('users').references('id');
       table.integer('story_id').unsigned().references('col').inTable('stories').references('id');
       table.string('title');
+      table.string('body');
       table.dateTime('start_time');
       table.integer('status').unsigned().references('col').inTable('statuses').references('id');
     })
