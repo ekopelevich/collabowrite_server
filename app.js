@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var cors = require('cors');
 var jwt = require('jsonwebtoken');
 
-var auth = require('./routes/auth');
+// var auth = require('./routes/auth');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var stories = require('./routes/stories');
@@ -27,27 +27,27 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //create a function that takes token off of header and verifies it
 
-app.use(function(req, res, next){
-  var token = req.get('Authorization');
-  if (token) {
-    token = token.substring(6);
-    // token = token.split('Basic ')[0];
-    console.log(token);
-  }
-  var parts = token.split('.');
-  if (parts.length == 3) {
-    var verify = parts[2];
-    jwt.verify((token, process.env.TOKEN_SECRET, function(err, decoded){
-      if(err) next();
-      console.log(decoded);
-      req.user = decoded;
-      next();
-    }))
-  }
-  // JSON.parse(atob(token.split(.)[1]).user);
-
-  next();
-})
+// app.use(function(req, res, next){
+//   var token = req.get('Authorization');
+//   if (token) {
+//     token = token.substring(6);
+//     // token = token.split('Basic ')[0];
+//     console.log(token);
+//   }
+//   var parts = token.split('.');
+//   if (parts.length == 3) {
+//     var verify = parts[2];
+//     jwt.verify((token, process.env.TOKEN_SECRET, function(err, decoded){
+//       if(err) next();
+//       console.log(decoded);
+//       req.user = decoded;
+//       next();
+//     }))
+//   }
+//   // JSON.parse(atob(token.split(.)[1]).user);
+//
+//   next();
+// })
 
 app.use('/', routes);
 app.use('/auth', routes);
