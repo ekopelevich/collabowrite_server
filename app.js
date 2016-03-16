@@ -50,7 +50,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // })
 
 app.use('/', routes);
-app.use('/auth', routes);
+// app.use('/auth', auth);
 app.use('/users', users);
 app.use('/stories', stories);
 app.use('/contributions', contributions);

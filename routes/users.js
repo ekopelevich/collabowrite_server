@@ -1,27 +1,22 @@
 var express = require('express');
 var knex = require('../db/knex');
-var app = express();
-var userRouter = express.Router();
-var storyRouter = express.Router({ mergeParams: true });
+var router = express();
+var stories = require('./stories');
 
-// app.use('/users', userRouter)
-// userRouter.use('/:user_id/stories', storyRouter);
-// storyRouter.use('/:user_id/stories', storyRouter);
-
-userRouter.get('/:user_id', function(req, res, next) {
+router.get('/:user_id', function(req, res, next) {
   knex('users').select().where('id', req.params.user_id)
   .then(function(user){
     res.status(200).send(user[0]);
   })
 });
 
-userRouter.get('/', function(req, res, next) {
+router.get('/', function(req, res, next) {
   knex('users').select().then(function(users){
     res.status(200).send({user: users});
   })
 });
 
-userRouter.post('/', function(req, res, next) {
+router.post('/', function(req, res, next) {
   console.log(req.body);
   var user = {};
 
@@ -31,7 +26,7 @@ userRouter.post('/', function(req, res, next) {
   });
 });
 
-userRouter.put('/:user_id', function(req, res, next) {
+router.put('/:user_id', function(req, res, next) {
   var user = {};
 
   knex('users').update(user)
@@ -41,30 +36,27 @@ userRouter.put('/:user_id', function(req, res, next) {
   })
 });
 
-userRouter.delete('/', function(req, res, next) {
+router.delete('/:user_id', function(req, res, next) {
   knex('users').delete()
   .where('id', req.params.user_id).then(function(){
     res.sendStatus(204);
   })
 });
 
-storyRouter.get('/:user_id', function(req, res, next) {
-  knex('users').select().where('id', req.params.user_id)
-  .then(function(user){
-    console.log('hello', req.params)
-    res.send('Hello from monkey ' + req.params.id);
-    // res.status(200).send(user[0]);
-  })
+router.get('/:user_id/stories', function(req, res, next) {
+  knex.select().from('stories')
+    .join('users', 'stories.owner_id', '=', 'users.id')
+    .where('users.id', req.params.user_id).then(function(data){
+      res.json(data);
+    })
 });
 
-storyRouter.get('/:story_id', function(req, res, next) {
+// router.use('/:user_id/stories/:story_id')
+router.get('/:story_id', function(req, res, next) {
   knex('users').select().then(function(users){
     res.status(200).send({user: users});
     res.send('Hello from user ' + req.params.id + '. This is story # ' + req.params.id );
   })
 });
 
-app.use('/users/', userRouter);
-app.use('/users/:user_id/stories', storyRouter);
-
-module.exports = userRouter;
+module.exports = router;

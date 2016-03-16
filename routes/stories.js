@@ -57,7 +57,7 @@ router.put('/:story_id', function(req, res, next) {
   })
 });
 
-router.delete('/', function(req, res, next) {
+router.delete('/:story_id', function(req, res, next) {
   knex('stories').delete()
   .where('id', req.params.story_id).then(function(){
     res.sendStatus(204);
