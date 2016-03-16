@@ -11,7 +11,8 @@ router.get('/:user_id', function(req, res, next) {
 });
 
 router.get('/', function(req, res, next) {
-  knex('users').select().then(function(users){
+  knex('users').select()
+  .then(function(users){
     res.status(200).send({user: users});
   })
 });
@@ -20,7 +21,8 @@ router.post('/', function(req, res, next) {
   console.log(req.body);
   var user = {};
 
-  knex('users').returning('id').insert(user).then(function(ids) {
+  knex('users').returning('id').insert(user)
+  .then(function(ids) {
     user.id = ids[0];
     res.status(201).send(user);
   });
@@ -38,24 +40,28 @@ router.put('/:user_id', function(req, res, next) {
 
 router.delete('/:user_id', function(req, res, next) {
   knex('users').delete()
-  .where('id', req.params.user_id).then(function(){
+  .where('id', req.params.user_id)
+  .then(function(){
     res.sendStatus(204);
   })
 });
 
 router.get('/:user_id/stories', function(req, res, next) {
   knex.select().from('stories')
-    .join('users', 'stories.owner_id', '=', 'users.id')
-    .where('users.id', req.params.user_id).then(function(data){
+    .join('users', 'stories.owner_id', 'users.id')
+    .where('users.id', req.params.user_id)
+    .then(function(data){
       res.json(data);
     })
 });
 
-// router.use('/:user_id/stories/:story_id')
-router.get('/:story_id', function(req, res, next) {
-  knex('users').select().then(function(users){
-    res.status(200).send({user: users});
-    res.send('Hello from user ' + req.params.id + '. This is story # ' + req.params.id );
+router.get('/:user_id/stories/:story_id', function(req, res, next) {
+  knex.select().from('stories')
+  .join('users', 'stories.owner_id', 'users.id')
+  .where('users.id', req.params.user_id)
+  .andWhere('stories.id', req.params.story_id)
+  .then(function(data){
+    res.json(data);
   })
 });
 
