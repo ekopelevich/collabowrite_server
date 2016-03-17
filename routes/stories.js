@@ -14,7 +14,7 @@ router.get('/:storyId', function(req, res, next) {
 router.get('/', function(req, res, next) {
   knex('stories').select().then(function(stories){
     console.log(stories);
-    res.status(200).send({data: stories});
+    res.status(200).send({story: stories});
   })
 });
 
