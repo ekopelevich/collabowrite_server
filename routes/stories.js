@@ -23,11 +23,11 @@ router.post('/', function(req, res, next) {
   // console.log('request:', req)
   var story = {
     owner_id: 1,
-    title: req.body.title,
+    title: req.body.story.title,
     start_date: moment().format(),
-    summary: req.body.summary,
+    summary: req.body.story.summary,
     edit_lock: 0,
-    genre_id: req.body.genre,
+    genre_id: req.body.story.genre,
     checkout_time: moment().format(),
     state_id: 1
   };
@@ -67,8 +67,7 @@ router.delete('/:story_id', function(req, res, next) {
 
 router.get('/:story_id/contributions', function(req, res, next) {
   knex.select().from('contributions')
-    .join('stories', 'contributions.story_id', 'stories.id')
-    .where('stories.id', req.params.story_id)
+    .where('story_id', req.params.story_id)
     .then(function(data){
       res.json(data);
     })
