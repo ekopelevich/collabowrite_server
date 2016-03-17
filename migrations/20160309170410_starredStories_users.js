@@ -2,8 +2,8 @@ exports.up = function(knex, Promise) {
   return Promise.all([
     knex.schema.createTable('starredStories_users', function(table) {
       table.increments('id').primary();
-      table.integer('story_id').unsigned().references('col').inTable('stories').references('id');
-      table.integer('user_id').unsigned().references('col').inTable('users').references('id');
+      table.integer('storyId').unsigned().references('col').inTable('stories').references('id');
+      table.integer('userId').unsigned().references('col').inTable('users').references('id');
     })
   ]);
 };

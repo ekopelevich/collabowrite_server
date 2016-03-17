@@ -2,14 +2,14 @@ exports.up = function(knex, Promise) {
   return Promise.all([
     knex.schema.createTable('users', function(table) {
       table.increments('id').primary();
-      table.string('first_name');
-      table.string('last_name');
+      table.string('firstName');
+      table.string('lastName');
       table.string('email');
       table.string('location');
-      table.integer('gender_id').unsigned().references('col').inTable('genders').references('id');
-      table.string('tag_line');
+      table.integer('genderId').unsigned().references('col').inTable('genders').references('id');
+      table.string('tagLine');
       table.text('bio');
-      table.dateTime('member_since');
+      table.dateTime('memberSince');
       table.string('avatar');
       table.boolean('banned');
     })

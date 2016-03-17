@@ -2,14 +2,14 @@ var express = require('express');
 var router = express.Router();
 var knex = require('../db/knex');
 
-router.use('/:user_id', function(req, res, next) {
+router.use('/:userId', function(req, res, next) {
   req.routeChain = req.routeChain || {};
   req.routeChain.contributionId = req.params.id;
   next();
 });
 
-router.get('/:contribution_id', function(req, res, next) {
-  knex('contributions').select().where('id', req.params.contribution_id)
+router.get('/:contributionId', function(req, res, next) {
+  knex('contributions').select().where('id', req.params.contributionId)
   .then(function(contribution){
     res.status(200).send(contribution[0]);
   })
@@ -25,11 +25,11 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
   console.log(req.body);
   var contribution = {
-    author_id: 2,
-    story_id: 1,
+    authorId: 2,
+    storyId: 1,
     title: req.body.title,
     body: req.body.body,
-    start_time: moment().format(),
+    startTime: moment().format(),
     status: 1
   };
 
@@ -40,27 +40,27 @@ router.post('/', function(req, res, next) {
   });
 });
 
-router.put('/:contribution_id', function(req, res, next) {
+router.put('/:contributionId', function(req, res, next) {
   console.log(req.body);
   var contribution = {
-    author_id: 2,
-    story_id: 1,
+    authorId: 2,
+    storyId: 1,
     title: req.body.title,
     body: req.body.body,
-    start_time: moment().format(),
+    startTime: moment().format(),
     status: 1
   };
 
   knex('contributions').update(contribution)
-  .where('id', req.params.contribution_id)
+  .where('id', req.params.contributionId)
   .then(function(){
     res.status(202).send(contribution);
   })
 });
 
-router.delete('/:contribution_id', function(req, res, next) {
+router.delete('/:contributionId', function(req, res, next) {
   knex('contributions').delete()
-  .where('id', req.params.contribution_id).then(function(){
+  .where('id', req.params.contributionId).then(function(){
     res.sendStatus(204);
   })
 });
