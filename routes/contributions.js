@@ -5,14 +5,14 @@ var knex = require('../db/knex');
 router.get('/:contribution_id', function(req, res, next) {
   knex('contributions').select().where('id', req.params.contribution_id)
   .then(function(contribution){
-    res.status(200).send(contribution[0]);
+    res.status(200).send({contribution: contribution[0]});
   })
 });
 
 router.get('/', function(req, res, next) {
   knex('contributions').select().then(function(contributions){
     console.log(contributions);
-    res.status(200).send({contribution: contributions});
+    res.status(200).send({contributions: contributions});
   })
 });
 

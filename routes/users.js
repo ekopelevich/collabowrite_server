@@ -6,14 +6,14 @@ var stories = require('./stories');
 router.get('/:user_id', function(req, res, next) {
   knex('users').select().where('id', req.params.user_id)
   .then(function(user){
-    res.status(200).send(user[0]);
+    res.status(200).send({user: user[0]});
   })
 });
 
 router.get('/', function(req, res, next) {
   knex('users').select()
   .then(function(users){
-    res.status(200).send({user: users});
+    res.status(200).send({users: users});
   })
 });
 

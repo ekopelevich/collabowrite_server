@@ -7,14 +7,14 @@ var contributions = require('./contributions');
 router.get('/:story_id', function(req, res, next) {
   knex('stories').select().where('id', req.params.story_id)
   .then(function(story){
-    res.status(200).send(story[0]);
+    res.status(200).send({story: story[0]});
   })
 });
 
 router.get('/', function(req, res, next) {
   knex('stories').select().then(function(stories){
     console.log(stories);
-    res.status(200).send({story: stories});
+    res.status(200).send({stories: stories});
   })
 });
 
