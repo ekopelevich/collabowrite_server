@@ -1,7 +1,7 @@
 module.exports = function(knex, Promise) {
   return Promise.all([
     knex('contributions').insert({
-      author_id: 1,
+      user_id: 1,
       story_id: 2,
       title: 'House Rules',
       body: 'stuff',
@@ -9,7 +9,7 @@ module.exports = function(knex, Promise) {
       status: 2
     }),
     knex('contributions').insert({
-      author_id: 2,
+      user_id: 2,
       story_id: 1,
       title: 'Did Somebody Say Monkeys?',
       body: 'things',

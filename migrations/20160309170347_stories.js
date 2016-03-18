@@ -2,7 +2,7 @@ exports.up = function(knex, Promise) {
   return Promise.all([
     knex.schema.createTable('stories', function(table) {
       table.increments('id').primary();
-      table.integer('owner_id').unsigned().references('col').inTable('users').references('id');
+      table.integer('user_id').unsigned().references('col').inTable('users').references('id');
       table.string('title');
       table.dateTime('start_date');
       table.text('summary');
